@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StreamMarket</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0; background: #000000;
+    }
+    header {
+      background: #b2519f;
+      color: #000000;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header .logo {
+      font-weight: bold;
+      font-size: 1.2em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    header nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+    }
+    .hero {
+      background: rgba(0, 0, 0, 0.85);
+      color: #ffffff;
+      text-align: center;
+      padding: 50px 20px;
+    }
+    .hero button {
+      padding: 10px 20px;
+      font-weight: bold;
+      background: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #0d0c0c;
+    }
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 6px;
+      box-shadow: 0 0 10px #000000;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #products-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .card {
+      background: #efefef;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+      width: 220px;
+      padding: 15px;
+      text-align: center;
+    }
+    .card img {
+      max-width: 140px;
+      margin-bottom: 15px;
+    }
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 1.1em;
+    }
+    .card p.desc {
+      font-size: 0.9em;
+      color: #444;
+      min-height: 50px;
+    }
+    .card p.price {
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .available {
+      color: green;
+      font-weight: bold;
+    }
+    .unavailable {
+      color: red;
+      font-weight: bold;
+    }
+    .btn-buy {
+      background: #e81212;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    footer {
+      background: #393a41;
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 0.9em;
+      margin-top: 30px;
+    }
+    footer a {
+      color: #00ff3a;
+      font-weight: bold;
+      text-decoration: none;
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🎬 <strong>StreamMarket</strong></div>
+  <nav>
+    <a href="#products-container">Productos</a>
+    <a href="#footer">Contacto</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>Compra cuentas y gift cards de streaming 100% seguras</h1>
+  <p>Entrega rápida y soporte personalizado.</p>
+  <button onclick="document.getElementById('products-container').scrollIntoView({behavior: 'smooth'});">Ver catálogo</button>
+</section>
+
+<main>
+  <h2>Nuestros productos</h2>
+  <div id="products-container">
+    <!-- Aquí se agregarán las tarjetas -->
+  </div>
+</main>
+
+<footer id="footer">
+  <p>¿Necesitas ayuda?</p>
+  <p>Escríbenos por WhatsApp: 📱 <a href="https://wa.me/18495875118" target="_blank">+1 (849) 587-5118</a></p>
+</footer>
+
+<script>
+  const products = [
+    {
+      id: 'netflix',
+      name: 'Netflix  1 mes 1 dispositivo',
+      desc: 'Netflix es una plataforma de streaming que ofrece series, películas y documentales de todo el mundo.',
+      price: 4.59,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg',
+      available: true
+    },
+    {
+      id: 'CANVA',
+      name: 'CANVA PRO 6 MESES',
+      desc: 'Canva Pro es la versión paga de Canva. Funciona como una suscripción que te brinda un acceso ilimitado a todos los elementos, imágenes, sonidos, fuentes y plantillas premium.',
+      price: 10.12,
+      img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg',
+      available: true
+    },
+    {
+      id: 'disney',
+      name: 'Disney+  1 mes 1 dispositivo',
+      desc: 'Películas, series y clásicos de Disney, Pixar y Marvel.',
+      price: 2.57,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg',
+      available: true
+    },
+    {
+      id: 'prime',
+      name: 'Amazon Prime Video  1 mes 1 dispositivo',
+      desc: 'Miles de películas y series incluidas en Prime Video.',
+      price: 2.57,
+      img: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png',
+      available: true
+    },
+    {
+      id: 'crunchyroll',
+      name: 'Crunchyroll - 1 mes Premium 1 dispositivo',
+      desc: 'Accede a miles de animes subtitulados y doblados sin anuncios.',
+      price: 2.34,
+      img: 'https://logos-world.net/wp-content/uploads/2021/02/Crunchyroll-Symbol.png',
+      available: true
+    }
+  ];
+
+  const container = document.getElementById('products-container');
+
+  function createCard(product) {
+    const card = document.createElement('div');
+    card.className = 'card';
+
+    card.innerHTML = `
+      <img src="${product.img}" alt="${product.name}" />
+      <h3>${product.name}</h3>
+      <p class="desc">${product.desc}</p>
+      <p class="price">${product.price.toFixed(2)} USD</p>
+      <p class="${product.available ? 'available' : 'unavailable'}">
+        ${product.available ? 'Disponible ✅' : 'Disponible ✅'}
+      </p>
+      ${
+        product.available
+          ? `<button class="btn-buy" onclick="window.location.href='https://wa.me/18495875118?text=Hola,%20quiero%20comprar%20${encodeURIComponent(product.name)}'">Comprar</button>`
+          : `<button class="btn-buy" disabled>Comprar</button>`
+      }
+    `;
+
+    return card;
+  }
+
+  products.forEach(product => {
+    container.appendChild(createCard(product));
+  });
+</script>
+
+</body>
+</html>
