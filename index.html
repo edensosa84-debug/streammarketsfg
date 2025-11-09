@@ -104,6 +104,10 @@
       border-radius: 6px;
       font-weight: bold;
       margin-top: 10px;
+      transition: 0.3s;
+    }
+    .btn-buy:hover {
+      background: #b40c0c;
     }
     footer {
       background: #393a41;
@@ -138,9 +142,7 @@
 
 <main>
   <h2>Nuestros productos</h2>
-  <div id="products-container">
-    <!-- Aquí se agregarán las tarjetas -->
-  </div>
+  <div id="products-container"></div>
 </main>
 
 <footer id="footer">
@@ -152,23 +154,23 @@
   const products = [
     {
       id: 'netflix',
-      name: 'Netflix  1 mes 1 dispositivo',
+      name: 'Netflix 1 mes 1 dispositivo',
       desc: 'Netflix es una plataforma de streaming que ofrece series, películas y documentales de todo el mundo.',
       price: 4.59,
       img: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg',
       available: true
     },
     {
-      id: 'CANVA',
+      id: 'canva',
       name: 'CANVA PRO 6 MESES',
-      desc: 'Canva Pro es la versión paga de Canva. Funciona como una suscripción que te brinda un acceso ilimitado a todos los elementos, imágenes, sonidos, fuentes y plantillas premium.',
+      desc: 'Canva Pro es la versión paga de Canva con acceso ilimitado a elementos y plantillas premium.',
       price: 10.12,
       img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg',
       available: true
     },
     {
       id: 'disney',
-      name: 'Disney+  1 mes 1 dispositivo',
+      name: 'Disney+ 1 mes 1 dispositivo',
       desc: 'Películas, series y clásicos de Disney, Pixar y Marvel.',
       price: 2.57,
       img: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg',
@@ -176,7 +178,7 @@
     },
     {
       id: 'prime',
-      name: 'Amazon Prime Video  1 mes 1 dispositivo',
+      name: 'Amazon Prime Video 1 mes 1 dispositivo',
       desc: 'Miles de películas y series incluidas en Prime Video.',
       price: 2.57,
       img: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png',
@@ -197,28 +199,43 @@
   function createCard(product) {
     const card = document.createElement('div');
     card.className = 'card';
-
     card.innerHTML = `
       <img src="${product.img}" alt="${product.name}" />
       <h3>${product.name}</h3>
       <p class="desc">${product.desc}</p>
       <p class="price">${product.price.toFixed(2)} USD</p>
       <p class="${product.available ? 'available' : 'unavailable'}">
-        ${product.available ? 'Disponible ✅' : 'Disponible ✅'}
+        ${product.available ? 'Disponible ✅' : 'No disponible ❌'}
       </p>
       ${
         product.available
-          ? `<button class="btn-buy" onclick="window.location.href='https://wa.me/18495875118?text=Hola,%20quiero%20comprar%20${encodeURIComponent(product.name)}'">Comprar</button>`
-          : `<button class="btn-buy" disabled>Comprar</button>`
+          ? `<button class="btn-buy" onclick="payWithPayPal('${product.name}', ${product.price})">Comprar</button>`
+          : `<button class="btn-buy" disabled>No disponible</button>`
       }
     `;
-
     return card;
   }
 
-  products.forEach(product => {
-    container.appendChild(createCard(product));
-  });
+  function payWithPayPal(itemName, amount) {
+    const base = 'https://www.paypal.com/cgi-bin/webscr';
+    const whatsappNumber = '18495875118'; // tu número de WhatsApp sin "+"
+    const whatsappMessage = encodeURIComponent(`Hola, he realizado el pago de ${itemName}.`);
+    const returnURL = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+    const cancelURL = `https://tuweb.com/pago-cancelado`;
+
+    const params = new URLSearchParams({
+      cmd: '_xclick',
+      business: 'edensosa84@gmail.com',
+      item_name: itemName,
+      amount: amount.toFixed(2),
+      currency_code: 'USD',
+      return: returnURL,
+      cancel_return: cancelURL
+    });
+    window.open(`${base}?${params.toString()}`, '_blank');
+  }
+
+  products.forEach(product => container.appendChild(createCard(product)));
 </script>
 
 </body>
