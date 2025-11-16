@@ -5,123 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>StreamMarket</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0; padding: 0; background: #000000;
-    }
-    header {
-      background: #b2519f;
-      color: #000000;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header .logo {
-      font-weight: bold;
-      font-size: 1.2em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    header nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
-    }
-    .hero {
-      background: rgba(0, 0, 0, 0.85);
-      color: #ffffff;
-      text-align: center;
-      padding: 50px 20px;
-    }
-    .hero button {
-      padding: 10px 20px;
-      font-weight: bold;
-      background: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #0d0c0c;
-    }
-    main {
-      max-width: 900px;
-      margin: 30px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 6px;
-      box-shadow: 0 0 10px #000000;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    #products-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-    .card {
-      background: #efefef;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
-      width: 220px;
-      padding: 15px;
-      text-align: center;
-    }
-    .card img {
-      max-width: 140px;
-      margin-bottom: 15px;
-    }
-    .card h3 {
-      margin: 0 0 10px;
-      font-size: 1.1em;
-    }
-    .card p.desc {
-      font-size: 0.9em;
-      color: #444;
-      min-height: 50px;
-    }
-    .card p.price {
-      font-weight: bold;
-      margin: 10px 0;
-    }
-    .available {
-      color: green;
-      font-weight: bold;
-    }
-    .unavailable {
-      color: red;
-      font-weight: bold;
-    }
-    .btn-buy {
-      background: #e81212;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      cursor: pointer;
-      border-radius: 6px;
-      font-weight: bold;
-      margin-top: 10px;
-      transition: 0.3s;
-    }
-    .btn-buy:hover {
-      background: #b40c0c;
-    }
-    footer {
-      background: #393a41;
-      padding: 15px 20px;
-      text-align: center;
-      font-size: 0.9em;
-      margin-top: 30px;
-    }
-    footer a {
-      color: #00ff3a;
-      font-weight: bold;
-      text-decoration: none;
-      margin-left: 5px;
-    }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #000000; }
+    header { background: #b2519f; color: #000000; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+    header .logo { font-weight: bold; font-size: 1.2em; display: flex; align-items: center; gap: 8px; }
+    header nav a { color: white; text-decoration: none; margin-left: 20px; }
+    .hero { background: rgba(0, 0, 0, 0.85); color: #ffffff; text-align: center; padding: 50px 20px; }
+    .hero button { padding: 10px 20px; font-weight: bold; background: white; border: none; border-radius: 5px; cursor: pointer; color: #0d0c0c; }
+    main { max-width: 900px; margin: 30px auto; background: white; padding: 20px; border-radius: 6px; box-shadow: 0 0 10px #000000; }
+    h2 { text-align: center; margin-bottom: 20px; }
+    #products-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+    .card { background: #efefef; border-radius: 10px; box-shadow: 0 2px 5px rgb(0 0 0 / 0.1); width: 220px; padding: 15px; text-align: center; }
+    .card img { max-width: 140px; margin-bottom: 15px; }
+    .card h3 { margin: 0 0 10px; font-size: 1.1em; }
+    .card p.desc { font-size: 0.9em; color: #444; min-height: 50px; }
+    .card p.price { font-weight: bold; margin: 10px 0; }
+    .available { color: green; font-weight: bold; }
+    .unavailable { color: red; font-weight: bold; }
+    .btn-buy { background: #e81212; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 6px; font-weight: bold; margin-top: 10px; transition: 0.3s; }
+    .btn-buy:hover { background: #b40c0c; }
+    footer { background: #393a41; padding: 15px 20px; text-align: center; font-size: 0.9em; margin-top: 30px; }
+    footer a { color: #00ff3a; font-weight: bold; text-decoration: none; margin-left: 5px; }
   </style>
 </head>
 <body>
@@ -152,96 +55,18 @@
 
 <script>
   const products = [
-    {
-      id: 'netflix',
-      name: 'Netflix 1 mes 1 dispositivo',
-      desc: 'Netflix es una plataforma de streaming que ofrece series, películas y documentales de todo el mundo.',
-      price: 4.59,
-      img: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg',
-      available: true
-    },
-    {
-      id: 'canva6',
-      name: 'CANVA PRO 6 MESES',
-      desc: 'Canva Pro con acceso a elementos y plantillas premium.',
-      price: 40.37,
-      img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg',
-      available: true
-    },
-    {
-      id: 'canva1',
-      name: 'CANVA PRO 1 MES',
-      desc: 'Acceso completo a Canva Pro por 1 mes.',
-      price: 7.75,
-      img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg',
-      available: true
-    },
-    {
-      id: 'canva3',
-      name: 'CANVA PRO 3 MESES',
-      desc: 'Acceso completo por 3 meses.',
-      price: 35.71,
-      img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg',
-      available: true
-    },
-    {
-      id: 'canva12',
-      name: 'CANVA PRO 12 MESES',
-      desc: 'Acceso anual a Canva Pro.',
-      price: 46.58,
-      img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg',
-      available: true
-    },
- 
-    {
-      id: 'dgo',
-      name: 'DGO Win Full + Futbol',
-      desc: 'Acceso completo a DGO con deportes premium.',
-      price: 8.54,
-      img: 'https://win.pe/img/television/dgo-color.png?ver=1.3',
-      available: false
-    },
- 
-    {
-      id: 'iptv_screen',
-      name: 'IPTV CUENTA COMPLETA',
-      desc: 'Pantalla IPTV con canales HD.',
-      price: 5.43,
-      img: 'https://play-lh.googleusercontent.com/TtmQHrL1HRwBzyMSkT5XOqZZcGDqjy9265IqSEKpgKxJDgSkZhXRHuRa-eSwWzPZqW0',
-      available: true
-    },
-    {
-      id: 'max',
-      name: 'MAX Pantalla',
-      desc: 'Pantalla premium en MAX.',
-      price: 4.43,
-      img: 'https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_Max_Logo.svg',
-      available: true
-    },
-    {
-      id: 'disney',
-      name: 'Disney+ 1 mes 1 dispositivo',
-      desc: 'Películas, series y clásicos de Disney, Pixar y Marvel.',
-      price: 4.89,
-      img: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg',
-      available: true
-    },
-    {
-      id: 'prime',
-      name: 'Amazon Prime Video 1 mes 1 dispositivo',
-      desc: 'Miles de películas y series incluidas en Prime Video.',
-      price: 2.57,
-      img: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png',
-      available: true
-    },
-    {
-      id: 'crunchyroll',
-      name: 'Crunchyroll - 1 mes Premium 1 dispositivo',
-      desc: 'Accede a miles de animes subtitulados y doblados sin anuncios.',
-      price: 2.34,
-      img: 'https://logos-world.net/wp-content/uploads/2021/02/Crunchyroll-Symbol.png',
-      available: true
-    }
+    { id: 'netflix', name: 'Netflix 1 mes 1 dispositivo', desc: 'Netflix es una plataforma de streaming que ofrece series, películas y documentales.', price: 4.59, img: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg', available: true },
+    { id: 'canva6', name: 'CANVA PRO 6 MESES', desc: 'Canva Pro con acceso a elementos premium.', price: 40.37, img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg', available: true },
+    { id: 'canva1', name: 'CANVA PRO 1 MES', desc: 'Acceso completo a Canva Pro por 1 mes.', price: 7.75, img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg', available: true },
+    { id: 'canva3', name: 'CANVA PRO 3 MESES', desc: 'Acceso completo por 3 meses.', price: 35.71, img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg', available: true },
+    { id: 'canva12', name: 'CANVA PRO 12 MESES', desc: 'Acceso anual a Canva Pro.', price: 46.58, img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg', available: true },
+    { id: 'dgo', name: 'DGO Win Full + Futbol', desc: 'Acceso completo a DGO con deportes premium.', price: 8.54, img: 'https://win.pe/img/television/dgo-color.png?ver=1.3', available: false },
+    { id: 'iptv_screen', name: 'IPTV CUENTA COMPLETA', desc: 'Pantalla IPTV con canales HD.', price: 5.43, img: 'https://play-lh.googleusercontent.com/TtmQHrL1HRwBzyMSkT5XOqZZcGDqjy9265IqSEKpgKxJDgSkZhXRHuRa-eSwWzPZqW0', available: true },
+    { id: 'max', name: 'MAX Pantalla', desc: 'Pantalla premium en MAX.', price: 4.43, img: 'https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_Max_Logo.svg', available: true },
+    { id: 'disney', name: 'Disney+ 1 mes 1 dispositivo', desc: 'Películas, series y clásicos de Disney.', price: 4.89, img: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg', available: true },
+    { id: 'prime', name: 'Amazon Prime Video 1 mes 1 dispositivo', desc: 'Miles de películas y series.', price: 2.57, img: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png', available: true },
+    { id: 'crunchyroll', name: 'Crunchyroll - 1 mes Premium 1 dispositivo', desc: 'Miles de animes sin anuncios.', price: 2.34, img: 'https://logos-world.net/wp-content/uploads/2021/02/Crunchyroll-Symbol.png', available: true },
+    { id: 'youtube', name: 'YouTube Premium 3 mes', desc: 'YouTube sin anuncios, YouTube Music y descargas.', price: 15.20, img: 'https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg', available: false }
   ];
 
   const container = document.getElementById('products-container');
@@ -257,11 +82,7 @@
       <p class="${product.available ? 'available' : 'unavailable'}">
         ${product.available ? 'Disponible ✅' : 'No disponible ❌'}
       </p>
-      ${
-        product.available
-          ? `<button class="btn-buy" onclick="payWithPayPal('${product.name}', ${product.price})">Comprar</button>`
-          : `<button class="btn-buy" disabled>No disponible</button>`
-      }
+      ${product.available ? `<button class="btn-buy" onclick="payWithPayPal('${product.name}', ${product.price})">Comprar</button>` : `<button class="btn-buy" disabled>No disponible</button>`}
     `;
     return card;
   }
@@ -290,15 +111,3 @@
 
 </body>
 </html>
-
-  products.forEach(product => container.appendChild(createCard(product)));
-</script>
-
-</body>
-</html>
-
-
-
-
-
-
