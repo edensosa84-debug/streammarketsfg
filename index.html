@@ -4,33 +4,217 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>StreamMarket</title>
+
+  <!-- PayPal SDK (client-id=sb = sandbox). Cambia 'sb' por tu client-id real cuando quieras) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
+
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #000000; }
-    header { background: #b2519f; color: #000000; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-    header .logo { font-weight: bold; font-size: 1.2em; display: flex; align-items: center; gap: 8px; }
-    header nav a { color: white; text-decoration: none; margin-left: 20px; }
-    .hero { background: rgba(0, 0, 0, 0.85); color: #ffffff; text-align: center; padding: 50px 20px; }
-    .hero button { padding: 10px 20px; font-weight: bold; background: white; border: none; border-radius: 5px; cursor: pointer; color: #0d0c0c; }
-    main { max-width: 900px; margin: 30px auto; background: white; padding: 20px; border-radius: 6px; box-shadow: 0 0 10px #000000; }
-    h2 { text-align: center; margin-bottom: 20px; }
-    #products-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-    .card { background: #efefef; border-radius: 10px; box-shadow: 0 2px 5px rgb(0 0 0 / 0.1); width: 220px; padding: 15px; text-align: center; }
-    .card img { max-width: 140px; margin-bottom: 15px; }
-    .card h3 { margin: 0 0 10px; font-size: 1.1em; }
-    .card p.desc { font-size: 0.9em; color: #444; min-height: 50px; }
-    .card p.price { font-weight: bold; margin: 10px 0; }
-    .available { color: green; font-weight: bold; }
-    .unavailable { color: red; font-weight: bold; }
-    .btn-buy { background: #e81212; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 6px; font-weight: bold; margin-top: 10px; transition: 0.3s; }
+    /* === Estilos (manteniendo tu diseño) === */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0; background: #000000;
+      -webkit-font-smoothing:antialiased;
+    }
+    header {
+      background: #b2519f;
+      color: #000000;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    header .logo {
+      font-weight: bold;
+      font-size: 1.1em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #000;
+    }
+    header .logo img {
+      height: 36px;
+      width: 36px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 2px solid rgba(0,0,0,0.08);
+    }
+    header nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight:600;
+    }
+    .hero {
+      background: rgba(0, 0, 0, 0.85);
+      color: #ffffff;
+      text-align: center;
+      padding: 50px 20px;
+    }
+    .hero button {
+      padding: 10px 20px;
+      font-weight: bold;
+      background: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #0d0c0c;
+    }
+    main {
+      max-width: 1050px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 6px;
+      box-shadow: 0 0 10px #000000;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #products-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .card {
+      background: #efefef;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+      width: 220px;
+      padding: 15px;
+      text-align: center;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .card img {
+      max-width: 140px;
+      margin: 0 auto;
+      height:70px;
+      object-fit:contain;
+    }
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: 1.05em;
+    }
+    .card p.desc {
+      font-size: 0.9em;
+      color: #444;
+      min-height: 48px;
+      margin:0;
+    }
+    .card p.price {
+      font-weight: bold;
+      margin: 6px 0;
+    }
+    .available {
+      color: green;
+      font-weight: bold;
+    }
+    .unavailable {
+      color: red;
+      font-weight: bold;
+    }
+    .btn-buy, .btn-add {
+      background: #e81212;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+      margin-top: 8px;
+      transition: 0.18s;
+    }
+    .btn-add { background:#0b84f5; }
     .btn-buy:hover { background: #b40c0c; }
-    footer { background: #393a41; padding: 15px 20px; text-align: center; font-size: 0.9em; margin-top: 30px; }
-    footer a { color: #00ff3a; font-weight: bold; text-decoration: none; margin-left: 5px; }
+    .btn-add:hover { opacity:0.92; }
+
+    footer {
+      background: #393a41;
+      padding: 15px 20px;
+      text-align: center;
+      font-size: 0.9em;
+      margin-top: 30px;
+      color: #ddd;
+    }
+    footer a {
+      color: #00ff3a;
+      font-weight: bold;
+      text-decoration: none;
+      margin-left: 5px;
+    }
+
+    /* === Carrito flotante === */
+    .cart-float {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: linear-gradient(180deg,#06b6d4,#075985);
+      color: #002b3a;
+      border-radius: 14px;
+      padding: 12px 14px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.5);
+      z-index: 2000;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      cursor:pointer;
+    }
+    .cart-float .count {
+      background: #001219;
+      color: #fff;
+      border-radius: 50%;
+      width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:800;
+    }
+    /* Panel carrito */
+    .cart-panel {
+      position: fixed;
+      right: 18px;
+      bottom: 70px;
+      width: 340px;
+      max-height: 70vh;
+      overflow:auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 18px 40px rgba(2,6,23,0.45);
+      padding: 12px;
+      z-index: 2100;
+      display: none;
+      flex-direction: column;
+      gap:8px;
+    }
+    .cart-panel h4 { margin: 6px 0 8px 0; }
+    .cart-item { display:flex; gap:8px; align-items:center; border-bottom:1px solid #eee; padding:6px 0; }
+    .cart-item img { width:48px;height:34px;object-fit:contain;border-radius:6px }
+    .cart-item .meta { flex:1; font-size:14px; }
+    .cart-item .meta .q { font-weight:700; }
+    .cart-item .remove { background:transparent;border:0;color:#c32;cursor:pointer;font-weight:700 }
+    .cart-footer { display:flex;align-items:center;justify-content:space-between; gap:8px; margin-top:8px; }
+    .checkout-wrap { display:flex;flex-direction:column; gap:8px; align-items:stretch; }
+
+    /* PayPal container (hidden until needed) */
+    #paypal-cart-container, .paypal-individual-container { min-height:40px; }
+
+    @media (max-width:640px){
+      .cart-panel { right:10px; left:10px; width:auto; bottom:90px; }
+      .card { width: 46%; }
+    }
+    @media (max-width:420px){
+      .card { width: 100%; }
+    }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">🎬 <strong>StreamMarket</strong></div>
+  <div class="logo">
+    <!-- imagen subida por ti (ruta local) -->
+    <img src="/mnt/data/Imagen de WhatsApp 2025-11-21 a las 12.13.58_81aa1a4f.jpg" alt="logo" />
+    <span>🎬 <strong>StreamMarket</strong></span>
+  </div>
   <nav>
     <a href="#products-container">Productos</a>
     <a href="#footer">Contacto</a>
@@ -48,66 +232,301 @@
   <div id="products-container"></div>
 </main>
 
+<!-- Carrito flotante -->
+<div class="cart-float" id="cartFloat" title="Ver carrito">
+  <div style="font-weight:800;color:#fff">Carrito</div>
+  <div class="count" id="cartCount">0</div>
+</div>
+
+<!-- Panel del carrito -->
+<div class="cart-panel" id="cartPanel" aria-live="polite">
+  <h4>Tu carrito</h4>
+  <div id="cartItemsList">
+    <div style="color:#666;font-size:13px">El carrito está vacío</div>
+  </div>
+
+  <div class="cart-footer">
+    <div style="font-weight:800">Total: <span id="cartTotalText">0.00 USD</span></div>
+  </div>
+
+  <div class="checkout-wrap">
+    <!-- Botón para pagar todo el carrito -->
+    <button class="btn-buy" id="payCartBtn">Pagar carrito</button>
+
+    <!-- Contenedor donde PayPal renderizará los botones para PAGO DEL CARRITO -->
+    <div id="paypal-cart-container"></div>
+  </div>
+</div>
+
 <footer id="footer">
   <p>¿Necesitas ayuda?</p>
   <p>Escríbenos por WhatsApp: 📱 <a href="https://wa.me/18495875118" target="_blank">+1 (849) 587-5118</a></p>
 </footer>
 
 <script>
-  const products = [
-    { id: 'netflix', name: 'Netflix 1 mes 1 dispositivo', desc: 'Netflix es una plataforma de streaming que ofrece series, películas y documentales.', price: 4.59, img: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg', available: true },
-    { id: 'canva6', name: 'CANVA PRO 6 MESES', desc: 'Canva Pro con acceso a elementos premium.', price: 40.37, img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg', available: true },
-    { id: 'canva1', name: 'CANVA PRO 1 MES', desc: 'Acceso completo a Canva Pro por 1 mes.', price: 7.75, img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg', available: true },
-    { id: 'canva3', name: 'CANVA PRO 3 MESES', desc: 'Acceso completo por 3 meses.', price: 35.71, img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg', available: true },
-    { id: 'canva12', name: 'CANVA PRO 12 MESES', desc: 'Acceso anual a Canva Pro.', price: 46.58, img: 'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg', available: true },
-    { id: 'dgo', name: 'DGO Win Full + Futbol', desc: 'Acceso completo a DGO con deportes premium.', price: 8.54, img: 'https://win.pe/img/television/dgo-color.png?ver=1.3', available: false },
-    { id: 'iptv_screen', name: 'IPTV CUENTA COMPLETA', desc: 'Pantalla IPTV con canales HD.', price: 5.43, img: 'https://play-lh.googleusercontent.com/TtmQHrL1HRwBzyMSkT5XOqZZcGDqjy9265IqSEKpgKxJDgSkZhXRHuRa-eSwWzPZqW0', available: true },
-    { id: 'max', name: 'MAX Pantalla', desc: 'Pantalla premium en MAX.', price: 4.43, img: 'https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_Max_Logo.svg', available: true },
-    { id: 'disney', name: 'Disney+ 1 mes 1 dispositivo', desc: 'Películas, series y clásicos de Disney.', price: 4.89, img: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg', available: true },
-    { id: 'prime', name: 'Amazon Prime Video 1 mes 1 dispositivo', desc: 'Miles de películas y series.', price: 2.57, img: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png', available: true },
-    { id: 'crunchyroll', name: 'Crunchyroll - 1 mes Premium 1 dispositivo', desc: 'Miles de animes sin anuncios.', price: 2.34, img: 'https://logos-world.net/wp-content/uploads/2021/02/Crunchyroll-Symbol.png', available: true },
-    { id: 'youtube', name: 'YouTube Premium 3 mes', desc: 'YouTube sin anuncios, YouTube Music y descargas.', price: 15.20, img: 'https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg', available: false }
-  ];
+/* ========== CONFIG ========== */
+const WHATSAPP = "18495875118"; // tu número sin + ni espacios
+const STORAGE_KEY = "streammarket_cart_v1";
 
-  const container = document.getElementById('products-container');
+/* ========== Productos (los tuyos) ========== */
+const products = [
+  { id: 'netflix', name: 'Netflix 1 mes 1 dispositivo', desc:'Netflix es una plataforma de streaming que ofrece series, películas y documentales.', price:4.59, img:'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg', available:true },
+  { id: 'canva6', name: 'CANVA PRO 6 MESES', desc:'Canva Pro con acceso premium.', price:40.37, img:'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg', available:true },
+  { id: 'canva1', name: 'CANVA PRO 1 MES', desc:'Acceso completo a Canva Pro por 1 mes.', price:7.75, img:'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg', available:true },
+  { id: 'canva3', name: 'CANVA PRO 3 MESES', desc:'Acceso completo por 3 meses.', price:35.71, img:'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg', available:true },
+  { id: 'canva12', name: 'CANVA PRO 12 MESES', desc:'Acceso anual a Canva Pro.', price:46.58, img:'https://www.spri.eus/archivos/2021/12/jpg/canva-scaled.jpg', available:true },
+  { id: 'dgo', name: 'DGO Win Full + Futbol', desc:'Acceso completo a DGO.', price:8.54, img:'https://win.pe/img/television/dgo-color.png?ver=1.3', available:true },
+  { id: 'iptv', name: 'IPTV CUENTA COMPLETA', desc:'Pantalla IPTV con canales HD.', price:5.43, img:'https://play-lh.googleusercontent.com/TtmQHrL1HRwBzyMSkT5XOqZZcGDqjy9265IqSEKpgKxJDgSkZhXRHuRa-eSwWzPZqW0', available:true },
+  { id: 'max', name: 'MAX Pantalla', desc:'Pantalla premium en MAX.', price:4.43, img:'https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_Max_Logo.svg', available:true },
+  { id: 'disney', name: 'Disney+ 1 mes 1 dispositivo', desc:'Disney, Marvel, Pixar y más.', price:4.89, img:'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg', available:true },
+  { id: 'prime', name: 'Amazon Prime Video 1 mes 1 dispositivo', desc:'Miles de películas y series.', price:2.57, img:'https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video.png', available:true },
+  { id: 'crunchyroll', name: 'Crunchyroll 1 mes Premium', desc:'Accede a miles de animes.', price:2.34, img:'https://logos-world.net/wp-content/uploads/2021/02/Crunchyroll-Symbol.png', available:true }
+];
 
-  function createCard(product) {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <img src="${product.img}" alt="${product.name}" />
-      <h3>${product.name}</h3>
-      <p class="desc">${product.desc}</p>
-      <p class="price">${product.price.toFixed(2)} USD</p>
-      <p class="${product.available ? 'available' : 'unavailable'}">
-        ${product.available ? 'Disponible ✅' : 'No disponible ❌'}
-      </p>
-      ${product.available ? `<button class="btn-buy" onclick="payWithPayPal('${product.name}', ${product.price})">Comprar</button>` : `<button class="btn-buy" disabled>No disponible</button>`}
-    `;
-    return card;
+/* ========== Estado del carrito (cargado de localStorage) ========== */
+let cart = loadCart();
+
+/* ========== Render de productos en la página ========== */
+const container = document.getElementById('products-container');
+
+function createCard(product) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <img src="${product.img}" alt="${escapeHtml(product.name)}" />
+    <h3>${escapeHtml(product.name)}</h3>
+    <p class="desc">${escapeHtml(product.desc)}</p>
+    <p class="price">${product.price.toFixed(2)} USD</p>
+    <p class="${product.available ? 'available' : 'unavailable'}">
+      ${product.available ? 'Disponible ✅' : 'No disponible ❌'}
+    </p>
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:auto">
+      ${ product.available ? `<button class="btn-add" data-id="${product.id}">Agregar al carrito</button>` : '' }
+      ${ product.available ? `<button class="btn-buy" data-buy="${product.id}">Comprar ahora</button>` : `<button class="btn-buy" disabled>No disponible</button>` }
+    </div>
+    <div class="paypal-individual-container" id="paypal-individual-${product.id}"></div>
+  `;
+  return card;
+}
+
+products.forEach(p => container.appendChild(createCard(p)));
+
+/* ========== Interacciones: agregar, comprar individual, abrir panel ========== */
+document.addEventListener('click', function(e){
+  // Agregar al carrito
+  if(e.target.matches('.btn-add')){
+    const id = e.target.dataset.id;
+    addToCart(id, 1);
   }
+  // Comprar individual (inicia PayPal para 1 producto)
+  if(e.target.matches('.btn-buy') && e.target.dataset.buy){
+    const id = e.target.dataset.buy;
+    const prod = products.find(p => p.id === id);
+    if(!prod) return;
+    // renderizar botón PayPal individual (se crea en su contenedor)
+    renderPayPalIndividual(prod);
+  }
+  // abrir/cerrar panel carrito
+  if(e.target.closest('#cartFloat')) toggleCartPanel();
+});
 
-  function payWithPayPal(itemName, amount) {
-    const base = 'https://www.paypal.com/cgi-bin/webscr';
-    const whatsappNumber = '18495875118';
-    const whatsappMessage = encodeURIComponent(`Hola, he realizado el pago de ${itemName}.`);
-    const returnURL = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
-    const cancelURL = `https://tuweb.com/pago-cancelado`;
+/* ========== Carrito: funciones ========== */
+function addToCart(productId, qty = 1) {
+  const prod = products.find(p => p.id === productId);
+  if(!prod) return alert('Producto no encontrado');
+  const existing = cart.find(i => i.id === productId);
+  if(existing) existing.qty += qty;
+  else cart.push({ id: productId, qty: qty, price: prod.price, name: prod.name, img: prod.img });
+  saveCart();
+  renderCartUI();
+  // small feedback
+  flashMessage('Agregado al carrito: ' + prod.name);
+}
 
-    const params = new URLSearchParams({
-      cmd: '_xclick',
-      business: 'edensosa84@gmail.com',
-      item_name: itemName,
-      amount: amount.toFixed(2),
-      currency_code: 'USD',
-      return: returnURL,
-      cancel_return: cancelURL
+function removeFromCart(productId) {
+  cart = cart.filter(i => i.id !== productId);
+  saveCart();
+  renderCartUI();
+}
+
+function changeQty(productId, newQty) {
+  const it = cart.find(i => i.id === productId);
+  if(!it) return;
+  it.qty = newQty;
+  if(it.qty <= 0) removeFromCart(productId);
+  saveCart();
+  renderCartUI();
+}
+
+function clearCart(){
+  cart = [];
+  saveCart();
+  renderCartUI();
+}
+
+/* ========== Persistencia ========== */
+function saveCart(){
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+  } catch(e){}
+}
+function loadCart(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return [];
+    return JSON.parse(raw);
+  } catch(e){ return []; }
+}
+
+/* ========== Render carrito UI ========== */
+const cartFloat = document.getElementById('cartFloat');
+const cartCount = document.getElementById('cartCount');
+const cartPanel = document.getElementById('cartPanel');
+const cartItemsList = document.getElementById('cartItemsList');
+const cartTotalText = document.getElementById('cartTotalText');
+
+function renderCartUI(){
+  // contador
+  const totalItems = cart.reduce((s,i) => s + i.qty, 0);
+  cartCount.textContent = totalItems;
+  // lista
+  cartItemsList.innerHTML = '';
+  if(cart.length === 0){
+    cartItemsList.innerHTML = '<div style="color:#666;font-size:13px">El carrito está vacío</div>';
+  } else {
+    cart.forEach(it => {
+      const node = document.createElement('div');
+      node.className = 'cart-item';
+      node.innerHTML = `
+        <img src="${it.img}" alt="${escapeHtml(it.name)}" />
+        <div class="meta">
+          <div style="font-weight:700">${escapeHtml(it.name)}</div>
+          <div>Precio: ${it.price.toFixed(2)} USD</div>
+          <div style="margin-top:6px">
+            Cantidad:
+            <button style="margin-left:6px;padding:3px 7px" onclick="changeQty('${it.id}', ${it.qty - 1})">-</button>
+            <span style="margin:0 8px" class="q">${it.qty}</span>
+            <button style="padding:3px 7px" onclick="changeQty('${it.id}', ${it.qty + 1})">+</button>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:800;margin-bottom:6px">${(it.price * it.qty).toFixed(2)} USD</div>
+          <button class="remove" onclick="removeFromCart('${it.id}')">Eliminar</button>
+        </div>
+      `;
+      cartItemsList.appendChild(node);
     });
-    window.open(`${base}?${params.toString()}`, '_blank');
   }
+  // total
+  const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  cartTotalText.textContent = total.toFixed(2) + ' USD';
+}
+renderCartUI();
 
-  products.forEach(product => container.appendChild(createCard(product)));
+/* ========== Abrir / cerrar panel carrito ========== */
+function toggleCartPanel(){
+  if(cartPanel.style.display === 'flex') {
+    cartPanel.style.display = 'none';
+    // limpiar contenedor PayPal cart para no re-render innecesario
+    document.getElementById('paypal-cart-container').innerHTML = '';
+  } else {
+    cartPanel.style.display = 'flex';
+    // esconder botón PayPal individual si hay (para evitar confusión)
+    document.querySelectorAll('.paypal-individual-container').forEach(el => el.innerHTML = '');
+  }
+}
+
+/* ========== Botón Pagar Carrito: render PayPal para monto total ========== */
+document.getElementById('payCartBtn').addEventListener('click', function(){
+  if(cart.length === 0) { alert('El carrito está vacío.'); return; }
+  // limpiar contenedores individuales
+  document.querySelectorAll('.paypal-individual-container').forEach(el => el.innerHTML = '');
+  // renderizar botones PayPal para el carrito (una sola vez)
+  document.getElementById('paypal-cart-container').innerHTML = '';
+  renderPayPalCartButtons();
+});
+
+function renderPayPalCartButtons(){
+  const total = cart.reduce((s,i) => s + i.price * i.qty, 0);
+  paypal.Buttons({
+    style:{ layout:'vertical', color:'gold', shape:'rect', label:'pay' },
+    createOrder: function(data, actions){
+      return actions.order.create({
+        purchase_units: [{
+          amount: { value: total.toFixed(2) }
+        }]
+      });
+    },
+    onApprove: function(data, actions){
+      return actions.order.capture().then(function(details){
+        // crear mensaje detallado con productos y total
+        let lines = cart.map(i => `${i.qty} x ${i.name}`).join(' | ');
+        const message = `Hola, ya he realizado con éxito la compra del carrito. Productos: ${lines}. Total: ${total.toFixed(2)} USD.`;
+        // limpiar carrito (puedes mantener si prefieres)
+        clearCart();
+        // redirigir a WhatsApp
+        window.location.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`;
+      });
+    },
+    onCancel: function(){ alert('Pago cancelado'); },
+    onError: function(err){ console.error(err); alert('Ocurrió un error con PayPal'); }
+  }).render('#paypal-cart-container');
+}
+
+/* ========== PayPal individual (pagar 1 producto directamente) ========== */
+function renderPayPalIndividual(product) {
+  // limpiar cualquier botón individual previo
+  document.querySelectorAll('.paypal-individual-container').forEach(el => el.innerHTML = '');
+  const containerId = 'paypal-individual-' + product.id;
+  const container = document.getElementById(containerId);
+  if(!container) return;
+
+  paypal.Buttons({
+    style:{ layout:'vertical', color:'gold', shape:'rect', label:'pay' },
+    createOrder: function(data, actions){
+      return actions.order.create({
+        purchase_units: [{
+          amount: { value: product.price.toFixed(2) }
+        }]
+      });
+    },
+    onApprove: function(data, actions){
+      return actions.order.capture().then(function(details){
+        const message = `Hola, ya he realizado con éxito la compra del servicio: ${product.name}.`;
+        // redirigir a WhatsApp
+        window.location.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`;
+      });
+    },
+    onCancel: function(){ alert('Pago cancelado'); },
+    onError: function(err){ console.error(err); alert('Ocurrió un error con PayPal'); }
+  }).render('#' + containerId);
+}
+
+/* ========== util/helper ========== */
+function escapeHtml(text){ return String(text).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]) }); }
+
+function flashMessage(msg){
+  // Micro-feedback: console + breve notificación visual (title attribute update)
+  console.log(msg);
+  cartFloat.title = msg;
+  setTimeout(()=> cartFloat.title = 'Ver carrito', 2200);
+}
+
+/* ========== Inicial: click handler para cerrar panel si clic fuera ========== */
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.cart-panel') && !e.target.closest('#cartFloat') && cartPanel.style.display === 'flex'){
+    cartPanel.style.display = 'none';
+    document.getElementById('paypal-cart-container').innerHTML = '';
+  }
+});
+
+/* Prevent accidental form submission with Enter */
+window.addEventListener('keydown', function(e){ if(e.key === 'Enter') { e.preventDefault(); } });
 </script>
 
 </body>
 </html>
+
+</body>
+</html>
+
